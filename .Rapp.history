@@ -1,0 +1,38 @@
+setwd("~/Desktop/Federal-Paper-Authorship-Classification")#
+#install.packages("tm")#
+library(tm)#
+library(SnowballC)#
+# This code uses tm to preprocess the papers into a format useful for NB#
+## 1) remove non-letter characters, 2)remove stopwords, and 3)remove stem words#
+preprocess.directory = function(dirname){#
+	# the directory must have all the relevant text files#
+	ds = DirSource(dirname)#
+	# Corpus will make a tm document corpus from this directory#
+	fp = Corpus(ds)#
+	# inspect to verify#
+	# inspect(fp[1])#
+	# another useful command#
+	# identical(fp[[1]], fp[["Federalist01.txt"]])#
+	# now let us iterate through and clean this up using tm functionality#
+	for (i in 1:length(fp)){#
+		# make all words lower case#
+		fp[i] = tm_map( fp[i] , tolower);#
+		# remove all punctuation#
+		fp[i] = tm_map( fp[i] , removePunctuation);#
+		# remove stopwords like the, a, and so on.	#
+		fp[i] = tm_map( fp[i], removeWords, stopwords("english"));#
+		# remove stems like suffixes#
+		fp[i] = tm_map( fp[i], stemDocument)#
+		# remove extra whitespace#
+		fp[i] = tm_map( fp[i], stripWhitespace)	#
+	}#
+	# now write the corpus out to the files for our future use.#
+	# MAKE SURE THE _CLEAN DIRECTORY EXISTS#
+	writeCorpus( fp , sprintf('%s_clean',dirname) )#
+}#
+###########################################
+#
+preprocess.directory("fp_hamilton_test")#
+preprocess.directory('fp_hamilton_train')#
+preprocess.directory('fp_madison_test')#
+preprocess.directory('fp_madison_train')
