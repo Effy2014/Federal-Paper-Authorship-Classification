@@ -1,7 +1,7 @@
 library(glmnet)
 library(caret)
 dtm.train[,2:ncol(dtm.train)] <- scale(dtm.train[,2:ncol(dtm.train)] , center = TRUE, scale = TRUE)
-dtm.test[,2:ncol(dtm.test)] <- scale(dtm.train[,2:ncol(dtm.test)],center = T, scale = T) 
+dtm.test[,2:ncol(dtm.test)] <- scale(dtm.test[,2:ncol(dtm.test)],center = T, scale = T) 
 dtm.train[is.nan(dtm.train)]=0
 dtm.test[is.nan(dtm.test)]=0
 #using ridge regression model on the training data
