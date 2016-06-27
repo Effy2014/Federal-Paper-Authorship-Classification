@@ -8,3 +8,6 @@
 
 * Centered and scaled document term matrices were used for regularized logistic regression. The data is regularized because p>n for this data.
 
+* Mutual information is used to select features
+
+* SVM with linear and Gaussian kernel is used to classify authorship
