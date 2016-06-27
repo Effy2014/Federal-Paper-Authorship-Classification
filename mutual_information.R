@@ -1,0 +1,11 @@
+dtm.train<-rbind(dtm.hamilton.train,dtm.madison.train)
+P.hamilton<-colSums(dtm.hamilton.train)/sum(dtm.hamilton.train)
+P.madison<-colSums(dtm.madison.train)/sum(dtm.madison.train)
+P<-colSums(dtm.train)/sum(dtm.train)
+p.hamilton<-nrow(dtm.hamilton.train)/nrow(dtm.train)
+p.madison<-nrow(dtm.madison.train)/nrow(dtm.train)
+mutual.information<-P.hamilton*p.hamilton*log(P.hamilton/P)+(1-P.hamilton)*p.hamilton*log((1-P.hamilton)/(1-P))+P.madison*p.madison*log(P.madison/P)+(1-P.madison)*p.madison*log((1-P.madison)/(1-P))
+mutual.information[is.na(mutual.information)]<-0
+dictionary.muinfo<-data.frame(as.vector(dictionary$word),mutual.information,row.names=c(1:4875))
+names(dictionary.muinfo)<-c("word.muinfo","value")
+sorted.muinfo<-dictionary.muinfo[order(dictionary.muinfo$value,decreasing=T),]
